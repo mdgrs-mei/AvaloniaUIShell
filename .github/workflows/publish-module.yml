@@ -1,0 +1,27 @@
+name: Publish Module
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+jobs:
+  publish_module:
+    name: Publish Module
+    runs-on: macos-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: src/global.json
+      - name: Build
+        shell: pwsh
+        run: |
+          & ./Build.ps1 -Configuration Release -ExportApi -BuildAllRuntimes
+      - name: Publish
+        env:
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+        shell: pwsh
+        run: |
+          Publish-Module -Path ./module/AvaloniaUIShell -NuGetApiKey "$env:NUGET_API_KEY"
