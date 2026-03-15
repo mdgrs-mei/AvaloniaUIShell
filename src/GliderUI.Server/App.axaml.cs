@@ -48,6 +48,7 @@ internal sealed partial class App : Application
     {
         ParseArgs();
         ObjectStore.Get().SetObjectIdPrefix("s");
+        ObjectTypeMapping.Get().Direction = ObjectTypeMapping.MappingDirection.ServerToClient;
         CommandServer.Get().Init(_upstreamPipeName);
         CommandClient.Get().Init(_downstreamPipeName);
         ObjectValidator.Init();

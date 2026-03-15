@@ -64,7 +64,7 @@ internal static class ObjectGenerator
 
             namespace GliderUI.Common;
 
-            public sealed class ObjectTypeMapping : Singleton<ObjectTypeMapping>
+            public sealed partial class ObjectTypeMapping : Singleton<ObjectTypeMapping>
             {
             """);
 
@@ -81,49 +81,6 @@ internal static class ObjectGenerator
                     {
                         _map.Add(map.Item2, map.Item1);
                     }
-                }
-            }
-
-            public string GetTargetTypeName(Type type)
-            {
-                _ = TryGetTargetTypeName(type, out string? targetTypeName);
-                if (targetTypeName is null)
-                {
-                    throw new InvalidOperationException($"Object type mapping not found for [{type.FullName}].");
-                }
-                return targetTypeName;
-            }
-
-            public bool TryGetTargetTypeName(Type sourceType, out string? targetTypeName)
-            {
-                var assemblyName = sourceType.Assembly.GetName().Name;
-                if (sourceType.IsGenericType)
-                {
-                    if (!_map.TryGetValue($"{sourceType.FullName!.Split('[')[0]}, {assemblyName}", out string? thisName))
-                    {
-                        targetTypeName = null;
-                        return false;
-                    }
-
-                    string[] thisNameAndAssembly = thisName.Split(", ");
-
-                    List<string> argNames = [];
-                    foreach (var argType in sourceType.GetGenericArguments())
-                    {
-                        if (!TryGetTargetTypeName(argType, out string? argTargetTypeName))
-                        {
-                            targetTypeName = null;
-                            return false;
-                        }
-                        argNames.Add($"[{argTargetTypeName}]");
-                    }
-
-                    targetTypeName = $"{thisNameAndAssembly[0]}[{string.Join(", ", argNames)}], {thisNameAndAssembly[1]}";
-                    return true;
-                }
-                else
-                {
-                    return _map.TryGetValue($"{sourceType.FullName}, {assemblyName}", out targetTypeName);
                 }
             }
 

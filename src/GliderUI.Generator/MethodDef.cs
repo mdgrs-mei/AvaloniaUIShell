@@ -114,26 +114,29 @@ internal class MethodDef
         return $"{interfaceTypeName}{_apiMethodDef.Name}";
     }
 
-    private string GetOriginalName(bool isInterfaceImplExplicitImplementation = false)
+    private string GetOriginalName(bool isInterfaceImplExplicitImplementation = false, bool addInterfaceName = true)
     {
         string interfaceTypeName = "";
-        if (ExplicitInterfaceType is not null)
+        if (addInterfaceName)
         {
-            interfaceTypeName = $"{ExplicitInterfaceType.GetOriginalName()}.";
-        }
-        else if (isInterfaceImplExplicitImplementation)
-        {
-            interfaceTypeName = $"{ObjectDef.Type.GetOriginalName()}.";
+            if (ExplicitInterfaceType is not null)
+            {
+                interfaceTypeName = $"{ExplicitInterfaceType.GetOriginalName()}.";
+            }
+            else if (isInterfaceImplExplicitImplementation)
+            {
+                interfaceTypeName = $"{ObjectDef.Type.GetOriginalName()}.";
+            }
         }
 
         return $"{interfaceTypeName}{_apiMethodDef.Name}";
     }
 
-    public string GetNameOfExpression(bool isInterfaceImplExplicitImplementation = false)
+    public string GetNameOfExpression(bool isInterfaceImplExplicitImplementation = false, bool addInterfaceName = true)
     {
         if (ExplicitInterfaceType is not null || isInterfaceImplExplicitImplementation)
         {
-            return $"\"{GetOriginalName(isInterfaceImplExplicitImplementation)}\"";
+            return $"\"{GetOriginalName(isInterfaceImplExplicitImplementation, addInterfaceName)}\"";
         }
         else
         {
