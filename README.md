@@ -8,7 +8,7 @@
 
 Cross-platform Desktop GUI framework for PowerShell powered by Avalonia.
 
-https://github.com/user-attachments/assets/4cdce633-b24a-4610-89a6-673599377c22
+https://github.com/user-attachments/assets/aa53a0b8-d478-4897-bc82-d10c804c98b1
 
 </div>
 
@@ -88,7 +88,7 @@ You can also refer to the [examples](./examples/Examples.md) folder for script s
 
 *GliderUI* launches a server process `GliderUI.Server` that provides all the UI functionalities. The GliderUI module communicates with the server through IPC (Inter-Process Communication) to create UI elements and handle events. No Avalonia's dlls are loaded in PowerShell.
 
-<img width="1436" height="857" alt="image" src="https://github.com/user-attachments/assets/c69a406d-2f9e-437e-82fb-938c786c40f4" />
+<img width="1269" height="779" alt="image" src="https://github.com/user-attachments/assets/2324899a-6331-4fb7-93e9-6716079b04a5" />
 
 This model simplifies the script structure. You can write long-running code in event handlers without blocking GUI. It's also allowed to access properties of UI elements directly on any thread without using Dispatchers.
 
