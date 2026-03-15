@@ -36,6 +36,12 @@ Example sign-in form that takes account name and password.
 
 <img width="423" height="452" alt="SignInForm" src="https://github.com/user-attachments/assets/f4cd7f39-64ca-4be0-bbad-902272a90f80" />
 
+## [StorageProvider.ps1](./StorageProvider.ps1)
+
+Examples of OpenFilePicker, SaveFilePicker and OpenFolderPicker.
+
+<img width="952" height="533" alt="StorageProvider" src="https://github.com/user-attachments/assets/8cf5175e-7068-4691-9701-4d5f15cff64b" />
+
 ## [XamlLoader.ps1](./XamlLoader.ps1)
 
 Demonstrates how to construct UI elements from a Xaml string.
