@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Collections.ObjectModel;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Xml.Serialization;
 using Avalonia;
@@ -21,6 +22,7 @@ internal sealed class Exporter
         AddTypesInAssembly(typeof(DataGrid)); // Avalonia.Controls.DataGrid.dll
 
         AddObject(typeof(List<>));
+        AddObject(typeof(ObservableCollection<>));
         AddEnum(typeof(Server.EventCallbackRunspaceMode));
 
         ExportToFile(apiFilePath);
