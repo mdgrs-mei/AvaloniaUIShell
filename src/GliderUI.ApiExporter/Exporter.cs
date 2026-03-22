@@ -11,6 +11,7 @@ namespace GliderUI.ApiExporter;
 internal sealed class Exporter
 {
     private readonly Api _api = new();
+    private readonly HashSet<string> _addedTypeMappings = [];
     private readonly HashSet<string> _addedEnums = [];
     private readonly HashSet<string> _addedObjects = [];
 
@@ -24,6 +25,7 @@ internal sealed class Exporter
         AddObject(typeof(List<>));
         AddObject(typeof(ObservableCollection<>));
         AddEnum(typeof(Server.EventCallbackRunspaceMode));
+        AddTypeMapping(typeof(Server.DataSource));
 
         ExportToFile(apiFilePath);
     }
@@ -46,16 +48,28 @@ internal sealed class Exporter
         }
     }
 
-    private bool IsPublicType(Type type)
+    private void AddTypeMapping(Type type)
     {
-        if (type.IsGenericParameter)
-            return true;
+        if (!IsPublicType(type))
+            return;
 
-        if (type.IsNested)
+        if (IsIgnoredNamespace(type.Namespace))
+            return;
+
+        string fullName = GetTypeFullName(type);
+        if (_addedTypeMappings.Contains(fullName))
+            return;
+        _ = _addedTypeMappings.Add(fullName);
+
+        var def = new Api.TypeMappingDef
         {
-            return type.IsNestedPublic && IsPublicType(type.DeclaringType!);
-        }
-        return type.IsPublic;
+            Name = GetObjectTypeName(type),
+            FullName = fullName,
+            Namespace = type.Namespace!,
+            GenericArgumentCount = type.GetGenericArguments().Length
+        };
+
+        _api.TypeMappings.Add(def);
     }
 
     private void AddEnum(Type type)
@@ -129,6 +143,18 @@ internal sealed class Exporter
         var def = GetObjectDef(type);
 
         _api.Objects.Add(def);
+    }
+
+    private bool IsPublicType(Type type)
+    {
+        if (type.IsGenericParameter)
+            return true;
+
+        if (type.IsNested)
+        {
+            return type.IsNestedPublic && IsPublicType(type.DeclaringType!);
+        }
+        return type.IsPublic;
     }
 
     private Api.ObjectDef GetObjectDef(Type type)

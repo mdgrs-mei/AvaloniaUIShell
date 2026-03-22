@@ -98,8 +98,19 @@ public class Api
         return _unsupportedMethodNames.Contains(methodName);
     }
 
+    public List<TypeMappingDef> TypeMappings { get; } = [];
     public List<EnumDef> Enums { get; } = [];
     public List<ObjectDef> Objects { get; } = [];
+
+    public class TypeMappingDef
+    {
+        public string Name { get; set; } = "";
+        public string FullName { get; set; } = "";
+        public string Namespace { get; set; } = "";
+
+        [DefaultValue(0)]
+        public int GenericArgumentCount { get; set; }
+    }
 
     public class EnumDef
     {
