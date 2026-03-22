@@ -50,7 +50,7 @@ internal sealed class DataSourcePropertyAccessorPlugin : IPropertyAccessorPlugin
             if (target is not DataSource dataSource)
                 return;
 
-            if (dataSource.TryGetMember(propertyName, out object? propertyValue))
+            if (dataSource.TryGetMember(_propertyName, out object? propertyValue))
             {
                 PropertyType = propertyValue?.GetType();
             }
