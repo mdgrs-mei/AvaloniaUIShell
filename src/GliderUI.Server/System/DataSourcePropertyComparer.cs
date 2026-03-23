@@ -37,6 +37,42 @@ public sealed class DataSourcePropertyComparer : IComparer
         object? propertyX = dataSourceX.GetMember(_propertyName);
         object? propertyY = dataSourceY.GetMember(_propertyName);
 
-        return Comparer.Default.Compare(propertyX, propertyY);
+        try
+        {
+            return Comparer.Default.Compare(propertyX, propertyY);
+        }
+        catch (ArgumentException)
+        {
+            // If the types are different, try converting them to double if they are numeric types.
+            if (IsNumericType(propertyX) && IsNumericType(propertyY))
+            {
+                double doubleX = Convert.ToDouble(propertyX);
+                double doubleY = Convert.ToDouble(propertyY);
+                return Comparer.Default.Compare(doubleX, doubleY);
+            }
+            throw;
+        }
+    }
+
+    private static bool IsNumericType(object? obj)
+    {
+        if (obj is null)
+            return false;
+
+        Type type = obj.GetType();
+        var typeCode = Type.GetTypeCode(type);
+
+        return typeCode is
+            TypeCode.SByte or
+            TypeCode.Byte or
+            TypeCode.Int16 or
+            TypeCode.UInt16 or
+            TypeCode.Int32 or
+            TypeCode.UInt32 or
+            TypeCode.Int64 or
+            TypeCode.UInt64 or
+            TypeCode.Single or
+            TypeCode.Double or
+            TypeCode.Decimal;
     }
 }
