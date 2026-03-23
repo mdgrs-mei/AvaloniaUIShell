@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.0] - 2026-03-23
+
+### Added
+
+- Added `DataSource` and `ObservableCollection`
+- Added `DataGrid`
+
 ## [0.0.2] - 2026-03-16
 
 ### Fixed
