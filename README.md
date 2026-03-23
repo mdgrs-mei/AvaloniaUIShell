@@ -241,10 +241,6 @@ $win.Show()
 $win.WaitForClosed()
 ```
 
-## Major Limitations
-
-- Data binding is not supported
-
 ## Contributing
 
 ### Code of Conduct
